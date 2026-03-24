@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YOLO Fitness by Suraj</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+
+<style>
+:root{
+--green:#00ff88;
+--bg:#0a0a0a;
+}
+*{margin:0;padding:0;font-family:Poppins}
+body{background:var(--bg);color:white}
+
+/* NAV */
+header{
+position:fixed;width:100%;top:0;
+display:flex;justify-content:space-between;
+padding:15px 30px;
+background:rgba(0,0,0,0.6);
+backdrop-filter:blur(10px);
+z-index:1000
+}
+nav a{margin:0 10px;color:white;text-decoration:none}
+nav a:hover{color:var(--green)}
+
+/* HERO */
+.hero{
+height:100vh;
+display:flex;flex-direction:column;
+justify-content:center;align-items:center;
+text-align:center;
+background:url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b') center/cover;
+}
+.hero h1{font-size:60px;color:var(--green)}
+
+.btn{
+background:var(--green);
+padding:12px 30px;
+border:none;border-radius:30px;
+margin-top:20px;cursor:pointer;
+}
+
+/* SECTION */
+.section{padding:80px 20px;text-align:center}
+.cards{display:flex;flex-wrap:wrap;justify-content:center;gap:20px}
+.card{background:#111;padding:20px;border-radius:10px;width:250px}
+
+/* SCHEDULE */
+.schedule div{
+background:#111;padding:15px;margin:5px;border-radius:10px
+}
+
+/* DASHBOARD */
+#dashboard{display:none}
+
+/* CHATBOT */
+#chatbot{
+position:fixed;bottom:80px;right:20px;
+width:300px;background:#111;border-radius:10px;
+display:none;flex-direction:column
+}
+#messages{height:200px;overflow:auto;padding:10px}
+
+/* WHATSAPP */
+.whatsapp{
+position:fixed;bottom:20px;right:20px;
+background:#25D366;padding:15px;border-radius:50%
+}
+
+/* 3D */
+canvas{position:fixed;top:0;left:0;z-index:-1}
+</style>
+</head>
+
+<body>
+
+<canvas id="bg"></canvas>
+
+<header>
+<h2 style="color:#00ff88">YOLO Fitness</h2>
+<nav>
+<a href="#">Home</a>
+<a href="#about">About</a>
+<a href="#plans">Plans</a>
+<a href="#contact">Contact</a>
+</nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+<h1>YOLO Fitness by Suraj</h1>
+<p>Train Hard. Stay Strong.</p>
+<button class="btn" onclick="showLogin()">Join Now</button>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="section">
+<h2>About</h2>
+<p>Premium gym with expert trainers and modern equipment.</p>
+</section>
+
+<!-- PROGRAMS -->
+<section class="section">
+<h2>Programs</h2>
+<div class="cards">
+<div class="card">Strength Training</div>
+<div class="card">Cardio</div>
+<div class="card">Weight Loss</div>
+<div class="card">Personal Training</div>
+</div>
+</section>
+
+<!-- TRAINERS -->
+<section class="section">
+<h2>Trainers</h2>
+<div class="cards">
+<div class="card">Suraj Sir</div>
+<div class="card">Expert Coach</div>
+</div>
+</section>
+
+<!-- SCHEDULE -->
+<section class="section">
+<h2>Schedule</h2>
+<div class="schedule">
+<div>6AM - Weight Training</div>
+<div>8AM - Cardio</div>
+<div>6PM - Boxing</div>
+</div>
+</section>
+
+<!-- PRICING -->
+<section id="plans" class="section">
+<h2>Plans</h2>
+<div class="cards">
+<div class="card">₹999 Basic</div>
+<div class="card">₹1999 Standard</div>
+<div class="card">₹2999 Premium</div>
+</div>
+<button class="btn" onclick="pay()">Pay Now</button>
+</section>
+
+<!-- LOGIN -->
+<section id="login" class="section" style="display:none">
+<h2>Login</h2>
+<input placeholder="Name"><br><br>
+<input placeholder="Phone"><br><br>
+<button class="btn" onclick="dashboard()">Enter</button>
+</section>
+
+<!-- DASHBOARD -->
+<section id="dashboard" class="section">
+<h2>Dashboard</h2>
+
+<div class="card">
+<h3>Book Session</h3>
+<input type="date">
+<button class="btn">Book</button>
+</div>
+
+<div class="card">
+<h3>Membership</h3>
+<p>Active Plan</p>
+</div>
+
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="section">
+<h2>Contact</h2>
+<p>Abids, Hyderabad</p>
+<p>Phone: 09848081347</p>
+</section>
+
+<footer class="section">
+<p>© YOLO Fitness</p>
+</footer>
+
+<!-- WHATSAPP -->
+<a class="whatsapp" href="https://wa.me/919848081347"></a>
+
+<!-- CHATBOT -->
+<div id="chatbot">
+<div id="messages"></div>
+<input placeholder="Ask..." onkeydown="chat(event)">
+</div>
+<button onclick="toggleChat()" style="position:fixed;bottom:140px;right:20px">AI</button>
+
+<script>
+
+// LOGIN
+function showLogin(){
+document.querySelector('.hero').style.display='none'
+document.getElementById('login').style.display='block'
+}
+function dashboard(){
+document.getElementById('login').style.display='none'
+document.getElementById('dashboard').style.display='block'
+}
+
+// PAYMENT
+function pay(){
+alert('Add Razorpay API here')
+}
+
+// CHATBOT
+function toggleChat(){
+let c=document.getElementById('chatbot')
+c.style.display=c.style.display==='flex'?'none':'flex'
+}
+function chat(e){
+if(e.key==='Enter'){
+let v=e.target.value
+let box=document.getElementById('messages')
+box.innerHTML+=`<div>You: ${v}</div>`
+let r='Welcome to YOLO Fitness!'
+if(v.includes('price')) r='Plans ₹999-₹2999'
+box.innerHTML+=`<div>AI: ${r}</div>`
+e.target.value=''
+}
+}
+
+// 3D
+const scene=new THREE.Scene()
+const camera=new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,1000)
+const renderer=new THREE.WebGLRenderer({canvas:document.getElementById('bg'),alpha:true})
+renderer.setSize(window.innerWidth,window.innerHeight)
+
+const geo=new THREE.TorusKnotGeometry(10,3,100,16)
+const mat=new THREE.MeshBasicMaterial({color:0x00ff88,wireframe:true})
+const mesh=new THREE.Mesh(geo,mat)
+scene.add(mesh)
+
+camera.position.z=30
+
+function animate(){
+requestAnimationFrame(animate)
+mesh.rotation.x+=0.01
+mesh.rotation.y+=0.01
+renderer.render(scene,camera)
+}
+animate()
+
+</script>
+
+</body>
+</html>
